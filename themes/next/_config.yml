@@ -202,7 +202,7 @@ links_settings:
   layout: block
 
 links:
-  aaa: http://www.hinzzz.cn
+  Java技术栈: http://www.hinzzz.cn
  
 
 # Table of Contents in the Sidebar
@@ -713,7 +713,7 @@ firestore:
 # Show Views / Visitors of the website / page with busuanzi.
 # Get more information on http://ibruce.info/2015/04/04/busuanzi
 busuanzi_count:
-  enable: false
+  enable: true
   total_visitors: true
   total_visitors_icon: user
   total_views: true
@@ -1003,3 +1003,6 @@ images: images
 # 文章末尾添加“本文结束”标记
 passage_end_tag:
   enabled: false
+
+#开启列表节约模式
+simpleList: true
