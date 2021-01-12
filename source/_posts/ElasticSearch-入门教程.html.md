@@ -1,13 +1,10 @@
 ---
 title: Elasticsearch 入门教程
 categories: Elasticsearch
+date: 2020/12/30
+keywords: [elasticsearch概述,elasticsearch语法检索,elasticsearch整合springboot]
+description: 本文主要介绍elasticsearch（以下简称es）相关入门教程，包括es的安装及使用，es的检索语法，es与springboot进行整合
 ---
-
-
-
-
-
-
 
 
 

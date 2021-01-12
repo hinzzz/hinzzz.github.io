@@ -6,14 +6,14 @@
 title: hinzzz′s Java技术栈
 subtitle: ''
 description: 专注于 Java，多线程，Spring，SpringBoot，SpringCloud，K8s，Mysql，Elasticsearch，MyBatis,  等其他分布式技术
-keywords: Java
+keywords: Java，多线程，Spring，SpringBoot，SpringCloud，K8s，Mysql，Elasticsearch，MyBatis,  等其他分布式技术
 author: hinzzz
 language: zh-CN
 timezone: ''
 
-# URL
+# URL 站点地图
 ## If your site is put in a subdirectory, set url as 'http://example.com/child' and root as '/child/'
-url: http://example.com
+url: http://www.hinzzz.cn
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -178,3 +178,7 @@ neat_js:
 
   
 
+sitemap:
+  path: sitemap.xml
+baidusitemap:
+  path: baidusitemap.xml
