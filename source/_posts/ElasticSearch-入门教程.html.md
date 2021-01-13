@@ -1,5 +1,6 @@
 ---
 title: Elasticsearch 入门教程
+author: hinzzz
 categories: Elasticsearch
 date: 2020/12/30
 keywords: [elasticsearch概述,elasticsearch语法检索,elasticsearch整合springboot]
