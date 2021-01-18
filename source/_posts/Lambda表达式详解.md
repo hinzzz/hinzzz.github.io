@@ -2,8 +2,8 @@
 title: Lambda表达式详解
 author: hinzzz
 categories: 
-	- Lambda
 	- Java1.8新特性
+	- Lambda表达式
 	- 函数式接口
 date: 2020/06/10
 keywords: [Lambda,Java1.8新特性,java双冒号,函数式接口]
