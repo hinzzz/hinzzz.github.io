@@ -102,6 +102,78 @@ System.out.println("num = " + num);
 
 Lambda作为参数时：接受Lambda表达式的参数类型必须是与Lambda表达式兼容的函数式接口的类型。
 
+```java
+public class TestLambda2 {
+
+	@Test
+	public void test1(){
+		int num = 0;//jdk 1.7 前，必须是 final
+
+		Runnable r = new Runnable() {
+			@Override
+			public void run() {
+				System.out.println("Hello World!" + num);
+			}
+		};
+
+		r.run();
+		System.out.println("-------------------------------");
+
+		Runnable r1 = () -> System.out.println("Hello Lambda!");
+		r1.run();
+	}
+
+	@Test
+	public void test2(){
+		Consumer<String> con = x -> System.out.println(x);
+		con.accept("hello ->");
+	}
+
+	@Test
+	public void test3(){
+		Comparator<Integer> com = (x, y) -> {
+			System.out.println("函数式接口");
+			return Integer.compare(x, y);
+		};
+	}
+
+	@Test
+	public void test4(){
+		Comparator<Integer> com = (x, y) -> Integer.compare(x, y);
+	}
+
+	@Test
+	public void test5(){
+//		String[] strs;
+//		strs = {"aaa", "bbb", "ccc"};
+
+		List<String> list = new ArrayList<>();
+
+		show(new HashMap<>());
+	}
+
+	public void show(Map<String, Integer> map){
+
+	}
+
+	//需求：对一个数进行运算
+	@Test
+	public void test6(){
+		Integer num = operation(100, (x) -> x * x);
+		System.out.println(num);
+
+		System.out.println(operation(200, (y) -> y + 200));
+	}
+
+	public Integer operation(Integer num, MyFun mf){
+		return mf.getValue(num);
+	}
+}
+
+```
+
+
+
 ### 五、Java内置四大核心函数式接口
 
 **java.util.function包下**
@@ -112,6 +184,88 @@ Lambda作为参数时：接受Lambda表达式的参数类型必须是与Lambda�
 | Supplier<T>    |    无    |    T     | 返回类型为T的对象,，包含方法T get();                         |
 | Function<T, R> |    T     |    R     | 对类型为T的对象应用操作，返回类型为R的对象，包含方法R apply(T t); |
 | Predicate<T>   |    T     | boolean  | 确定类型为T的对象是否满足约束，并返回boolean值，包含方法boolean test(T t); |
+
+```java
+public class TestLambda3 {
+
+	//Predicate<T> 断言型接口：
+	@Test
+	public void test4(){
+		List<String> list = Arrays.asList("春秋", "只", "转载", "要事", "。");
+		List<String> strList = filterStr(list, (s) -> s.length() >= 2);
+
+		for (String str : strList) {
+			System.out.println(str);
+		}
+
+
+		//使用streamApi优化
+		list.stream().filter((s) -> s.length() >= 2).collect(Collectors.toList()).forEach(System.out::println);
+	}
+
+	//需求：将满足条件的字符串，放入集合中
+	public List<String> filterStr(List<String> list, Predicate<String> pre){
+		List<String> strList = new ArrayList<>();
+
+		for (String str : list) {
+			if(pre.test(str)){
+				strList.add(str);
+			}
+		}
+
+		return strList;
+	}
+
+	//Function<T, R> 函数型接口：
+	@Test
+	public void test3(){
+		String newStr = strHandler(" 北方风雪下  ", (str) -> str.trim());
+		System.out.println(newStr);
+
+		String subStr = strHandler("北方风雪下", (str) -> str.substring(2, 5));
+		System.out.println(subStr);
+	}
+
+	//需求：用于处理字符串
+	public String strHandler(String str, Function<String, String> fun){
+		return fun.apply(str);
+	}
+
+	//Supplier<T> 供给型接口 :
+	@Test
+	public void test2(){
+		List<Integer> numList = getNumList(10, () -> (int)(Math.random() * 100));
+
+		for (Integer num : numList) {
+			System.out.println(num);
+		}
+	}
+
+	//需求：产生指定个数的整数，并放入集合中
+	public List<Integer> getNumList(int num, Supplier<Integer> sup){
+		List<Integer> list = new ArrayList<>();
+
+		for (int i = 0; i < num; i++) {
+			Integer n = sup.get();
+			list.add(n);
+		}
+
+		return list;
+	}
+
+	//Consumer<T> 消费型接口 :
+	@Test
+	public void test1(){
+		happy(10000, (m) -> System.out.println("买了：" + m + "元"));
+	}
+
+	public void happy(double money, Consumer<Double> con){
+		con.accept(money);
+	}
+}
+```
+
+
 
 ### 六、方法引用与构造器引用
 
@@ -165,4 +319,140 @@ System.out.println("f5 = " + f4.apply(4));
 ```
 
 
+
+```java
+/*
+ * 一、方法引用：若 Lambda 体中的功能，已经有方法提供了实现，可以使用方法引用
+ * 			  （可以将方法引用理解为 Lambda 表达式的另外一种表现形式）
+ * 
+ * 1. 对象的引用 :: 实例方法名
+ * 
+ * 2. 类名 :: 静态方法名
+ * 
+ * 3. 类名 :: 实例方法名
+ * 
+ * 注意：
+ * 	 ①方法引用所引用的方法的参数列表与返回值类型，需要与函数式接口中抽象方法的参数列表和返回值类型保持一致！
+ * 	 ②若Lambda 的参数列表的第一个参数，是实例方法的调用者，第二个参数(或无参)是实例方法的参数时，格式： ClassName::MethodName
+ * 
+ * 二、构造器引用 :构造器的参数列表，需要与函数式接口中参数列表保持一致！
+ * 
+ * 1. 类名 :: new
+ * 
+ * 三、数组引用
+ * 
+ * 	类型[] :: new;
+ * 
+ * 
+ */
+public class TestMethodRef {
+	//数组引用
+	@Test
+	public void test8(){
+		Function<Integer, String[]> fun = (args) -> new String[args];
+		String[] strs = fun.apply(10);
+		System.out.println(strs.length);
+
+		System.out.println("--------------------------");
+
+		Function<Integer, Employee[]> fun2 = Employee[] :: new;
+		Employee[] emps = fun2.apply(20);
+		System.out.println(emps.length);
+	}
+
+	//构造器引用
+	@Test
+	public void test7(){
+		Function<String, Employee> fun = Employee::new;
+
+		BiFunction<String, Integer, Employee> fun2 = Employee::new;
+	}
+
+	@Test
+	public void test6(){
+		Supplier<Employee> sup = () -> new Employee();
+		System.out.println(sup.get());
+
+		System.out.println("------------------------------------");
+
+		Supplier<Employee> sup2 = Employee::new;
+		System.out.println(sup2.get());
+	}
+
+	//类名 :: 实例方法名
+	@Test
+	public void test5(){
+		BiPredicate<String, String> bp = (x, y) -> x.equals(y);
+		System.out.println(bp.test("abcde", "abcde"));
+
+		System.out.println("-----------------------------------------");
+
+		BiPredicate<String, String> bp2 = String::equals;
+		System.out.println(bp2.test("abc", "abc"));
+
+		System.out.println("-----------------------------------------");
+
+
+		Function<Employee, String> fun = (e) -> e.show();
+		System.out.println(fun.apply(new Employee()));
+
+		System.out.println("-----------------------------------------");
+
+		Function<Employee, String> fun2 = Employee::show;
+		System.out.println(fun2.apply(new Employee()));
+
+	}
+
+	//类名 :: 静态方法名
+	@Test
+	public void test4(){
+		Comparator<Integer> com = (x, y) -> Integer.compare(x, y);
+
+		System.out.println("-------------------------------------");
+
+		Comparator<Integer> com2 = Integer::compare;
+	}
+
+	@Test
+	public void test3(){
+		BiFunction<Double, Double, Double> fun = (x, y) -> Math.max(x, y);
+		System.out.println(fun.apply(5.5, 6.6));
+
+		System.out.println("--------------------------------------------------");
+
+		BiFunction<Double, Double, Double> fun2 = Math::max;
+		System.out.println(fun2.apply(5.5, 6.6));
+	}
+
+	//对象的引用 :: 实例方法名
+	@Test
+	public void test2(){
+		Employee emp = new Employee(101, "hinzzz", 18, 9999.99);
+
+		Supplier<String> sup = () -> emp.getName();
+		System.out.println(sup.get());
+
+		System.out.println("----------------------------------");
+
+		Supplier<String> sup2 = emp::getName;
+		System.out.println(sup2.get());
+	}
+
+	@Test
+	public void test1(){
+		PrintStream ps = System.out;
+		Consumer<String> con = (str) -> ps.println(str);
+		con.accept("Hello World！");
+
+		System.out.println("--------------------------------");
+
+		Consumer<String> con2 = ps::println;
+		con2.accept("Hello ::");
+
+		Consumer<String> con3 = System.out::println;
+	}
+
+}
+
+```
 
