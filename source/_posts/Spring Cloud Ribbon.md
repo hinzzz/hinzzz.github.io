@@ -1,3 +1,14 @@
+---
+title: Spring Cloud Ribbon 入门教程
+author: hinzzz
+categories: ribbon 
+date: 2020/11/30
+keywords: [Spring Cloud Ribbon 入门教程t]
+description: 本文主要介绍Spring Cloud Ribbon 入门教程
+---
+
+
+
 #### Spring Cloud Ribbon
 
 > Spring Cloud Ribbon是基于NetFlix Ribbon实现的一套**客户端负载均衡的工具**

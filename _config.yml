@@ -104,7 +104,8 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: git@120.79.48.191:/home/git/blog.git #注意改成自己的服务器ip
+  repo: git@81.71.120.127:/home/git/blog.git #注意改成自己的服务器ip
+  #repo: https://github.com/hinzzz/hinzzz.github.io.git #注意改成自己的服务器ip
   branch: master
   message:
 

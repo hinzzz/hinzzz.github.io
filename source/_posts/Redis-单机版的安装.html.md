@@ -1,8 +1,8 @@
 ---
 title: redis 单机版的安装
 date: 2019/12/27
-tags: Redis
-categories: Redis
+tags: redis
+categories: redis
 keywords: [redis单机版安装]
 description: redis单机版安装
 ---

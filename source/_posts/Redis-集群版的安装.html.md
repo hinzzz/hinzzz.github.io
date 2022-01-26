@@ -1,7 +1,7 @@
 ---
 title: Redis 集群版的安装
-tags: Redis 集群
-categories: Redis
+tags: redis
+categories: redis
 date: 2019/12/27
 keywords: [redis集群安装]
 description: redis集群安装
